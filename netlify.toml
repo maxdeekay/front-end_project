@@ -1,0 +1,3 @@
+[[redirects]]
+from = "/skolenhetsregistret/*"
+to = "https://api.skolverket.se/skolenhetsregistret/:splat"
