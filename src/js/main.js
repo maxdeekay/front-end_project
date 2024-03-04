@@ -8,7 +8,7 @@ window.onload = async () => {
         const data = await response.json();
         console.log(data);
     } else {
-        console.log("ERROR")
+        console.log("ERRORS")
     }
 }
 
