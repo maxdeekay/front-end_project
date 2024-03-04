@@ -1,0 +1,7 @@
+@use "base" as *;
+
+body {
+    background-color: $bg-color;
+    color: white;
+    font-family: "Open Sans", sans-serif;
+}
