@@ -15,6 +15,7 @@ window.onload = async () => {
                 input.blur();
             }
         });
+        initializeMap();
     } else {
         console.log("ERRORS");
     }
@@ -77,6 +78,22 @@ async function showSchool(code) {
     document.getElementById("zip-code").innerHTML = school.SkolenhetInfo.Besoksadress.Postnr;
     document.getElementById("city").innerHTML = school.SkolenhetInfo.Besoksadress.Ort;
     document.getElementById("principal-name").innerHTML = school.SkolenhetInfo.Rektorsnamn;
+
+    const ul = document.getElementById("school-forms");
+    ul.innerHTML = "";
+
+    school.SkolenhetInfo.Skolformer.forEach((form) => {
+        const li = document.createElement("li");
+        li.innerHTML = form.Benamning;
+        ul.appendChild(li);
+    });
+
+    const webpage = document.getElementById("visit-webpage");
+    webpage.href = school.SkolenhetInfo.Webbadress;
+
+    const lat = school.SkolenhetInfo.Besoksadress.GeoData.Koordinat_WGS84_Lat;
+    const lng = school.SkolenhetInfo.Besoksadress.GeoData.Koordinat_WGS84_Lng;
+    updateMap(lat, lng);
 }
 
 async function getSchool(code) {
@@ -106,5 +123,21 @@ async function getSchools(code) {
 function resetPage() {
     document.getElementById("suggestion-container").style.display = "none";
     document.getElementById("schools-container").style.display = "none";
-    /* document.getElementById("school-container").style.display = "none"; */
+}
+
+function initializeMap() {
+    const map = L.map("map");
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+}
+
+function updateMap(lat, long) {
+    const map = document.getElementById("map");
+    map.style.display = "block";
+    map.setView([lat, long], 13)
+    const marker = L.marker([lat, long]).addTo(map);
+    marker.bindPopup("<b>Söderskolan</b>");
 }
