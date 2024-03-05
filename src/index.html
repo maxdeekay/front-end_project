@@ -3,12 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="css/main.scss">
     <script src="js/main.js" type="module"></script>
     <title>Project</title>
 </head>
 <body>
-    <h1>Hellos</h1>
-    <h1 id="output"></h1>
+    <div id="container">
+        <input type="text" id="input">
+        <div id="suggestion-container"></div>
+        <div id="schools-container"></div>
+
+        <div id="school-container">
+            <div id="left">
+                <p id="school-name">Bällstabergsskolan</p>
+
+                <div>
+                    <div id="address">
+                        <p id="street">Svampskogsvägen 28</p>
+                        <p id="zip-code">18655</p>
+                        <p id="city">Vallentuna</p>
+                    </div>
+    
+                    <div id="principal-container">
+                        <p id="principal-title">Rektor:</p>
+                        <p id="principal-name">Marie-Louise Yllner Geuken</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="right">
+                <ul>
+                    <li>Grundskola</li>
+                    <li>Förskoleklass</li>
+                    <li>Fritidshem</li>
+                </ul>
+
+                <a href="#">Besök skolans webbplats<span class="material-symbols-outlined">open_in_new</span></a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
