@@ -13,11 +13,17 @@
 <body>
     <div id="container">
         <div id="search-container">
-            <h1>Sök på en kommun</h1>
-            <input type="text" id="input">
+            <p id="intro-text">Mitt namn är Max Assermark och detta är mitt projektarbete i kursen DT211G, vänligen -</p>
+            <h1>SÖK PÅ EN KOMMUN</h1>
+            <div id="search-bar">
+                <div id="search-tag">
+                    <span id="tag-name"></span>
+                    <span class="material-symbols-outlined" id="remove-tag">cancel</span>
+                </div>
+                <input type="text" id="input" autocomplete="off">
+            </div>  
         </div>
         <div id="suggestion-container"></div>
-        <div id="schools-container"></div>
 
         <div id="school-container">
             <div id="left">

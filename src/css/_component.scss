@@ -8,40 +8,35 @@
 }
 
 #suggestion-container {
-    @include box(520px, 95%, auto, 10px);
-    background-color: lighten($bg-color, 20%);
+    @include box(482px, 100%, auto);
     display: none;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
+    margin: 8px 0 50px 0;
+    background-color: white;
+    padding: 5px 0;
 
     .suggestion {
-        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        padding: 10px 20px 10px 20px;
+        color: black;
+        font-weight: 600;
 
         &:hover {
-            background-color: lighten($bg-color, 40%);
-            border-radius: 10px;
             cursor: pointer;
-        }
-    }
-}
-
-#schools-container {
-    display: none;
-    grid-template-columns: 50% 50%;
-    row-gap: 3px;
-    margin-top: 10px;
-
-    .school {
-        @include box(250px, 95%, 40px, 5px);
-        background-color: lighten($bg-color, 20%);
-        padding: 5px;
-
-        &:hover {
-            background-color: lighten($bg-color, 40%);
-            cursor: pointer;
+            background-color: lighten($accent-color, 20%);
+            color: $accent-color;
         }
 
-        p { margin: 0; }
+        .type-text {
+            font-weight: 400;
+            font-size: 14px;
+            color: grey;
+        }
+
+        p { margin-block-start: 0; margin-block-end: 0;}
     }
 }
 

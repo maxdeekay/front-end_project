@@ -1,69 +1,101 @@
 "use strict";
 
-window.onload = async () => {
-    const url = "/skolenhetsregistret/v1/kommun";
-    const response = await fetch(url);
+const globalState = {
+    map: null,
+    marker: null,
+    tag: null
+};
 
-    if (response.ok) {
-        const data = await response.json();
+window.onload = async () => {
+    const regionsUrl = "/skolenhetsregistret/v1/kommun";
+    const schoolsUrl = "/skolenhetsregistret/v1/skolenhet";
+    const regionsResponse = await fetch(regionsUrl);
+    const schoolsResponse = await fetch(schoolsUrl);
+
+    if (regionsResponse.ok && schoolsResponse.ok) {
+        const regionsData = await regionsResponse.json();
+        const schoolsData = await schoolsResponse.json();
 
         const input = document.getElementById("input");
+        const searchContainer = document.getElementById("search-container");
 
         input.addEventListener("keypress", (e) => {
+            searchContainer.classList.add("at-top");
+            document.getElementById("intro-text").classList.add("fade-out");
+
             if (e.key === "Enter") {
-                search(input.value.toLowerCase(), data);
-                input.blur();
+                search(input.value.toLowerCase(), regionsData, schoolsData);
+                /* input.blur(); */
             }
         });
-        initializeMap();
+
     } else {
         console.log("ERRORS");
     }
+
+    initializeTag();
+    initializeMap();
 }
 
-function search(input, regions) {
-    const result = regions.Kommuner.filter(region => {
-        return region.Namn.toLowerCase().includes(input);
-    });
-
-    suggest(result.slice(0, 10));
+function search(input, regions, schools) {
+    if (globalState.tag) {
+        const result = schools.Skolenheter.filter(school => school.Kommunkod === globalState.tag).filter(school => school.Skolenhetsnamn.toLowerCase().includes(input));
+        
+        suggest(result);
+    } else {
+        const regionsResult = regions.Kommuner.filter(region => {
+            return region.Namn.toLowerCase().includes(input);
+        });
+    
+        const schoolsResult = schools.Skolenheter.filter(school => {
+            return school.Skolenhetsnamn.toLowerCase().includes(input);
+        });
+    
+        suggest(schoolsResult.slice(0, 5), regionsResult.slice(0, 5), );
+    }
 }
 
-function suggest(regions) {
+function suggest(schools, regions = null) {
+    resetPage();
     const container = document.getElementById("suggestion-container");
     container.innerHTML = "";
     container.style.display = "flex";
-    
-    regions.forEach((region) => {
+    console.log(schools);
+    schools.forEach((school) => {
         const div = document.createElement("div");
         const name = document.createElement("p");
-        const nameText = document.createTextNode(region.Namn + "s kommun");
+        const nameText = document.createTextNode(school.Skolenhetsnamn);
+        const type = document.createElement("p");
+        type.innerHTML = "Skola";
+
+        div.classList.add("suggestion");
+        type.classList.add("type-text");
 
         name.appendChild(nameText);
         div.appendChild(name);
-        div.classList.add("suggestion");
-        div.onclick = () => showRegion(region.Kommunkod);
-        container.appendChild(div);
-    });
-}
-
-async function showRegion(code) {
-    resetPage();
-    const schools = await getSchools(code);
-    const container = document.getElementById("schools-container");
-    container.style.display = "grid";
-
-    schools.forEach((school) => {
-        const div = document.createElement("div");
-        const schoolName = document.createElement("p");
-        const schoolNameText = document.createTextNode(school.Skolenhetsnamn);
-        
-        schoolName.appendChild(schoolNameText);
-        div.appendChild(schoolName);
-        div.classList.add("school");
+        div.appendChild(type);
         div.onclick = () => showSchool(school.Skolenhetskod);
         container.appendChild(div);
     });
+
+    if (regions) {
+        regions.forEach((region) => {
+            const div = document.createElement("div");
+            const name = document.createElement("p");
+            const nameText = document.createTextNode(region.Namn);
+            const type = document.createElement("p");
+            type.innerHTML = "Kommun";
+    
+            div.classList.add("suggestion");
+            type.classList.add("type-text");
+    
+            name.appendChild(nameText);
+            div.appendChild(name);
+            div.appendChild(type);
+            div.onclick = () => addSearchTag(region.Namn, region.Kommunkod);
+            container.appendChild(div);
+        });
+    }
 }
 
 async function showSchool(code) {
@@ -108,36 +140,44 @@ async function getSchool(code) {
     }
 }
 
-async function getSchools(code) {
-    const url = "/skolenhetsregistret/v1/kommun/" + code;
-    const response = await fetch(url);
-
-    if (response.ok) {
-        const data = await response.json();    
-        return data.Skolenheter.filter((school) => school.Status === "Aktiv");
-    } else {
-        console.log("ERRORS");
-    }
+function addSearchTag(name, code) {
+    const tag = document.getElementById("search-tag");
+    const tagName = document.getElementById("tag-name");
+    tag.style.display = "flex";
+    tagName.innerHTML = name;
+    globalState.tag = code;
 }
 
 function resetPage() {
     document.getElementById("suggestion-container").style.display = "none";
-    document.getElementById("schools-container").style.display = "none";
+    document.getElementById("school-container").style.display = "none";
+    document.getElementById("map").style.display = "none";
+}
+
+function initializeTag() {
+    const tag = document.getElementById("search-tag");
+    document.getElementById("remove-tag").onclick = () => {
+        tag.style.display = "none";
+        globalState.tag = null;
+    }
 }
 
 function initializeMap() {
-    const map = L.map("map");
+    globalState.map = L.map("map");
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
+    }).addTo(globalState.map);
+
+    globalState.marker = L.marker([10, 10]).addTo(globalState.map);
 }
 
-function updateMap(lat, long) {
+function updateMap(lat, lng) {
     const map = document.getElementById("map");
     map.style.display = "block";
-    map.setView([lat, long], 13)
-    const marker = L.marker([lat, long]).addTo(map);
-    marker.bindPopup("<b>Söderskolan</b>");
+
+    globalState.map.setView([lat, lng], 13)
+    globalState.marker.setLatLng([lat, lng]);
+    globalState.marker.bindPopup("<b>Söderskolan</b>");
 }
