@@ -8,22 +8,30 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="js/main.js" type="module"></script>
-    <title>Project</title>
+    <title>Skoluppgifter</title>
 </head>
 <body>
+    <div id="about">
+        <div id="wing"><span class="material-symbols-outlined">info</span></div>
+        <p>Mitt namn är Max Assermark, jag studerar webbutveckling på Mittuniversitetet och detta är mitt projektarbete i kursen Frontend-baserad webbutveckling, DT211G.</p>
+        <p>De APIer som använts är <a href="https://api.skolverket.se/skolenhetsregistret/swagger-ui/index.html" target="_blank">Skolverkets öppna API för Skolenhetsregistret</a> tillsammans med <a href="https://leafletjs.com/" target="_blank">Leaflet</a> genom OpenStreetMap.</p>
+        <p>Alla ikoner är från Googles <a href="https://fonts.google.com/icons" target="_blank">Material Symbols & Icons</a>.</p>
+    </div>
     <div id="container">
         <div id="search-container">
-            <p id="intro-text">Mitt namn är Max Assermark och detta är mitt projektarbete i kursen DT211G, vänligen -</p>
-            <h1>SÖK PÅ EN KOMMUN</h1>
-            <div id="search-bar">
-                <div id="search-tag">
-                    <span id="tag-name"></span>
-                    <span class="material-symbols-outlined" id="remove-tag">cancel</span>
+            <p id="intro-text">Välkommen till skoluppgifter.se</p>
+            <div id="inner-search-container">
+                <p id="search-terms">Skolnamn eller kommun</p>
+                <div id="search-bar">
+                    <div id="search-tag">
+                        <span id="tag-name"></span>
+                        <span class="material-symbols-outlined" id="remove-tag">cancel</span>
+                    </div>
+                    <input type="text" id="input" autocomplete="off">
                 </div>
-                <input type="text" id="input" autocomplete="off">
-            </div>  
+                <div id="suggestion-container"></div>
+            </div>
         </div>
-        <div id="suggestion-container"></div>
 
         <div id="school-container">
             <div id="left">
@@ -47,10 +55,14 @@
                 <ul id="school-forms">
                 </ul>
 
-                <a id="visit-webpage" target="_blank">Besök skolans webbplats<span class="material-symbols-outlined">open_in_new</span></a>
+                <a id="visit-webpage" target="_blank"><div><span>Besök skolans webbplats</span><span class="material-symbols-outlined">open_in_new</span></div></a>
             </div>
         </div>
         <div id="map"></div>
+        <div id="alert">
+            <span class="material-symbols-outlined">info</span>
+            <p>Denna skola har ingen tillhörande geodata</p>
+        </div>
     </div>
 </body>
 </html>

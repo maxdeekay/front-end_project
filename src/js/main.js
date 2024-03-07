@@ -19,23 +19,36 @@ window.onload = async () => {
         const input = document.getElementById("input");
         const searchContainer = document.getElementById("search-container");
 
-        input.addEventListener("keypress", (e) => {
+        input.addEventListener("input", debounce(() => {
             searchContainer.classList.add("at-top");
             document.getElementById("intro-text").classList.add("fade-out");
 
-            if (e.key === "Enter") {
-                search(input.value.toLowerCase(), regionsData, schoolsData);
-                /* input.blur(); */
-            }
-        });
+            search(input.value.toLowerCase(), regionsData, schoolsData);
+        }));
 
     } else {
         console.log("ERRORS");
     }
 
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+            const suggestions = document.getElementById("suggestion-container");
+            suggestions.style.display = "none";
+            suggestions.innerHTML = "";
+        }
+    });
+
     initializeTag();
     initializeMap();
 }
+
+const debounce = (fn, delay = 20) => { 
+    let timerId = null; 
+    return (...args) => { 
+        clearTimeout(timerId); 
+        timerId = setTimeout(() => fn(...args), delay); 
+    }; 
+};
 
 function search(input, regions, schools) {
     if (globalState.tag) {
@@ -51,16 +64,25 @@ function search(input, regions, schools) {
             return school.Skolenhetsnamn.toLowerCase().includes(input);
         });
     
-        suggest(schoolsResult.slice(0, 5), regionsResult.slice(0, 5), );
+        suggest(schoolsResult.slice(0, 5), regionsResult.slice(0, 5));
     }
 }
 
 function suggest(schools, regions = null) {
-    resetPage();
     const container = document.getElementById("suggestion-container");
     container.innerHTML = "";
     container.style.display = "flex";
-    console.log(schools);
+    
+    if ((schools.length === 0) && (regions === null || regions.length === 0) ) {
+        const div = document.createElement("div");
+        const name = document.createElement("p");
+        name.innerHTML = "Inget resultat";
+        div.classList.add("no-result");
+        name.classList.add("type-text");
+        div.appendChild(name);
+        container.appendChild(div);
+    }
+    
     schools.forEach((school) => {
         const div = document.createElement("div");
         const name = document.createElement("p");
@@ -92,7 +114,13 @@ function suggest(schools, regions = null) {
             name.appendChild(nameText);
             div.appendChild(name);
             div.appendChild(type);
-            div.onclick = () => addSearchTag(region.Namn, region.Kommunkod);
+            div.onclick = () => {
+                addSearchTag(region.Namn, region.Kommunkod);
+                const input = document.getElementById("input");
+                input.value = "";
+                input.focus();
+                container.style.display = "none";
+            };
             container.appendChild(div);
         });
     }
@@ -125,7 +153,8 @@ async function showSchool(code) {
 
     const lat = school.SkolenhetInfo.Besoksadress.GeoData.Koordinat_WGS84_Lat;
     const lng = school.SkolenhetInfo.Besoksadress.GeoData.Koordinat_WGS84_Lng;
-    updateMap(lat, lng);
+    if (lat && lng) updateMap(lat, lng, school.SkolenhetInfo.Namn);
+    else mapError();
 }
 
 async function getSchool(code) {
@@ -136,7 +165,7 @@ async function getSchool(code) {
         const data = await response.json();
         return data;
     } else {
-        console.log("ERRORS");
+        console.log("ERROR");
     }
 }
 
@@ -149,9 +178,12 @@ function addSearchTag(name, code) {
 }
 
 function resetPage() {
-    document.getElementById("suggestion-container").style.display = "none";
     document.getElementById("school-container").style.display = "none";
     document.getElementById("map").style.display = "none";
+    document.getElementById("alert").style.display = "none";
+    const suggestions = document.getElementById("suggestion-container");
+    suggestions.style.display = "none";
+    suggestions.innerHTML = "";
 }
 
 function initializeTag() {
@@ -159,6 +191,7 @@ function initializeTag() {
     document.getElementById("remove-tag").onclick = () => {
         tag.style.display = "none";
         globalState.tag = null;
+        document.getElementById("input").focus();
     }
 }
 
@@ -173,11 +206,16 @@ function initializeMap() {
     globalState.marker = L.marker([10, 10]).addTo(globalState.map);
 }
 
-function updateMap(lat, lng) {
+function updateMap(lat, lng, name) {
     const map = document.getElementById("map");
     map.style.display = "block";
 
     globalState.map.setView([lat, lng], 13)
     globalState.marker.setLatLng([lat, lng]);
-    globalState.marker.bindPopup("<b>Söderskolan</b>");
+    globalState.marker.bindPopup(`<b>${name}</b>`).openPopup();
+}
+
+function mapError() {
+    const element = document.getElementById("alert");
+    element.style.display = "flex";
 }

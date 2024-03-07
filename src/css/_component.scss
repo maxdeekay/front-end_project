@@ -8,13 +8,16 @@
 }
 
 #suggestion-container {
-    @include box(482px, 100%, auto);
+    @include box(510px, 100%, auto);
+    position: absolute;
     display: none;
     flex-direction: column;
     gap: 10px;
-    margin: 8px 0 50px 0;
+    margin-top: 5px;
     background-color: white;
     padding: 5px 0;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.7);
+    z-index: 5;
 
     .suggestion {
         display: flex;
@@ -38,11 +41,25 @@
 
         p { margin-block-start: 0; margin-block-end: 0;}
     }
+
+    .no-result {
+        padding: 10px 20px 10px 20px;
+
+        .type-text {
+            font-weight: 400;
+            font-size: 14px;
+            color: grey;
+        }
+
+        p { margin-block-start: 0; margin-block-end: 0;}
+
+    }
 }
 
 #school-container {
     @include box(650px, 95%, 250px, 10px);
     background-color: lighten($bg-color, 20%);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.7);
     padding: 10px;
     margin-top: 10px;
     display: none;
@@ -109,11 +126,16 @@
             }
         }
 
-        a {
-            color: lightblue;
+        a { text-decoration: none; }
+
+        #visit-webpage>div {
+            color: $accent-color;
             display: flex;
-            align-items: center;
-            text-decoration: none;
+            gap: 3px;
+            transition: all 0.2s ease;
+
+            span:first-child { align-self: end; }
+            &:hover { color: lighten($accent-color, 10%); }
         }
     }
 
@@ -122,7 +144,65 @@
 }
 
 #map {
-    @include box(600px, 95%, 400px, 10px);
-    margin-top: 10px;
+    @include box(670px, 95%, 420px, 10px);
+    margin-top: 20px;
     display: none;
+}
+
+#alert {
+    @include box(420px, 100%, 50px, 10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    background-color: $alert-color;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.7);
+    color: black;
+    margin-top: 20px;
+    display: none;
+
+    span {
+        font-size: 30px;
+    }
+}
+
+#map {
+    z-index: 1;
+}
+
+#about {
+    @include box(300px, 95%, auto, 0 0 10px 0);
+    background-color: darken($accent-color, 20%);
+    position: absolute;
+    z-index: 10;
+    margin: 10px 0 0 -300px;
+    transition: all 0.6s ease;
+
+    &:hover { margin-left: 0; box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7); }
+
+    #wing {
+        @include box(40px, 100px, 55px, 0 10px 10px 0);
+        background-color: darken($accent-color, 20%);
+        box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.7);
+        position: absolute;
+        top: 0;
+        right: -40px;
+
+        span {
+            font-size: 32px;
+            margin: 10px 0 0 4px;
+        }
+    }
+
+    p {
+        padding: 0 10px;
+        margin-block-start: 10px;
+    }
+
+    a { 
+        color: white; 
+        transition: all 0.2s ease;
+        
+        &:hover { color: darken($accent-color, 50%); }
+    }
 }

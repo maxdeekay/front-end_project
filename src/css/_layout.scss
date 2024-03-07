@@ -8,6 +8,8 @@ body {
     height: 100vh;
 }
 
+::-webkit-scrollbar { width: 0; height: 0; }
+
 p { font-size: 18px; }
 
 #container {
@@ -30,55 +32,72 @@ p { font-size: 18px; }
             font-weight: bold;
             text-align: center;
             color: white;
-            text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.7);
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
             position: absolute;
             margin-top: -120px;
             width: 700px;
             max-width: 95%;
         }
 
-        h1 { text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.7) };
+        h1 { text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7) };
 
-        #search-bar {
-            display: flex;
-            align-items: center;
-            border-bottom: 3px solid $accent-color;
-            @include box(500px, 95%, 30px);
-            background-color: lighten($bg-color, 20%);
-            padding: 5px;
-            gap: 5px;
-        }
-        input[type=text] {
-            @include box(auto, 100%, 100%);
-            /* box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.7); */
-            flex-grow: 1;
-            border: 0;
-            font-size: 24px;
-            background-color: rgba(0, 0, 0, 0);
-            color: white;     
+        #inner-search-container {
+            position: relative;
+            max-width: 100%;
 
-            &:focus { outline: none; }
-        }
+            #search-terms { position: absolute; top: -42px; }
 
-        #search-tag {
-            background-color: lighten($bg-color, 40%);
-            border-radius: 30px;
-            color: white;
-            padding: 3px 5px 3px 8px;
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            align-self: start;
-            margin-top: 2px;
-            display: none;
-            
-            #tag-name { font-size: 16px; }
-            #remove-tag { font-size: 20px; }
+            #search-bar {
+                display: flex;
+                align-items: center;
+                border-bottom: 3px solid $accent-color;
+                @include box(500px, 100%, 40px);
+                background-color: lighten($bg-color, 20%);
+                box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.7);
+            }
+            input[type=text] {
+                @include box(auto, 100%, 100%);
+                flex-grow: 1;
+                border: 0;
+                font-size: 24px;
+                background-color: rgba(0, 0, 0, 0);
+                color: white;     
+                padding: 10px;
 
-            #remove-tag:hover { cursor: pointer; color: $accent-color; }
+                &:focus { outline: none; }
+            }
+
+            #search-tag {
+                background-color: lighten($bg-color, 40%);
+                border-radius: 30px;
+                color: white;
+                padding: 3px 5px 3px 8px;
+                display: flex;
+                align-items: center;
+                gap: 3px;
+                margin-left: 8px;
+                display: none;
+                
+                #tag-name { font-size: 16px; }
+                #remove-tag { font-size: 20px; }
+
+                #remove-tag:hover { cursor: pointer; color: $accent-color; }
+            }
         }
     }
 }
 
-.at-top { margin-top: 0 !important; }
+.at-top { margin-top: 30px !important; }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in { animation: fadeIn 0.5s ease; }
+.fade-in.show { opacity: 1; }
 .fade-out { opacity: 0; transition: 0.8s ease; }
