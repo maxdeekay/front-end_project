@@ -19,15 +19,14 @@
     </div>
     <div id="container">
         <div id="search-container">
-            <p id="intro-text">Välkommen till skoluppgifter.se</p>
+            <img id="logo" src="images/logo.svg">
             <div id="inner-search-container">
-                <p id="search-terms">Skolnamn eller kommun</p>
                 <div id="search-bar">
                     <div id="search-tag">
                         <span id="tag-name"></span>
                         <span class="material-symbols-outlined" id="remove-tag">cancel</span>
                     </div>
-                    <input type="text" id="input" autocomplete="off">
+                    <input type="text" id="input" autocomplete="off" placeholder="Skriv namnet på en skola eller kommun...">
                 </div>
                 <div id="suggestion-container"></div>
             </div>
@@ -35,27 +34,23 @@
 
         <div id="school-container">
             <div id="left">
-                <p id="school-name"></p>
-
                 <div>
-                    <div id="address">
-                        <p id="street"></p>
-                        <p id="zip-code"></p>
-                        <p id="city"></p>
-                    </div>
-    
-                    <div id="principal-container">
-                        <p id="principal-title">Rektor:</p>
-                        <p id="principal-name"></p>
-                    </div>
+                    <div id="school-name"></div>
+                    <div id="principal-name"></div>
+                </div>
+                
+                <div>
+                    <div id="street"></div>
+                    <div id="zip-city"></div>
                 </div>
             </div>
 
             <div id="right">
-                <ul id="school-forms">
-                </ul>
-
-                <a id="visit-webpage" target="_blank"><div><span>Besök skolans webbplats</span><span class="material-symbols-outlined">open_in_new</span></div></a>
+                <div>
+                    <ul id="school-forms">
+                    </ul>
+                </div>
+                <a id="visit-webpage" href="#" target="_blank">Besök skolans webbplats</a>
             </div>
         </div>
         <div id="map"></div>

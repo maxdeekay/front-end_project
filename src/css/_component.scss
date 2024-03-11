@@ -8,12 +8,16 @@
 }
 
 #suggestion-container {
-    @include box(510px, 100%, auto);
+    @include box(100%, 100%, auto);
+    max-height: 710px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    border-radius: 0 0 5px 5px;
     position: absolute;
     display: none;
     flex-direction: column;
     gap: 10px;
-    margin-top: 5px;
+    margin-top: 8px;
     background-color: white;
     padding: 5px 0;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.7);
@@ -27,11 +31,7 @@
         color: black;
         font-weight: 600;
 
-        &:hover {
-            cursor: pointer;
-            background-color: lighten($accent-color, 20%);
-            color: $accent-color;
-        }
+        &:hover { cursor: pointer; }
 
         .type-text {
             font-weight: 400;
@@ -39,7 +39,7 @@
             color: grey;
         }
 
-        p { margin-block-start: 0; margin-block-end: 0;}
+        p { margin-block-start: 0; margin-block-end: 0; }
     }
 
     .no-result {
@@ -57,95 +57,69 @@
 }
 
 #school-container {
-    @include box(650px, 95%, 250px, 10px);
+    @include box(100%, 100%, 300px);
     background-color: lighten($bg-color, 20%);
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.7);
-    padding: 10px;
-    margin-top: 10px;
-    display: none;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+    margin-top: 15px;
+    display: flex;
     justify-content: space-between;
+    padding: 20px 30px;
+    box-sizing: border-box;
+    letter-spacing: 0.5px;
+    display: none;
 
     #left {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        gap: 20px;
+        padding: 20px;
+        width: 50%;
 
         #school-name {
-            font-size: 30px;
-            font-weight: bold;
+            font-size: 26px;
+            font-weight: 800;
         }
 
         div {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-
-            #address {
-                background-color: lighten($bg-color, 40%);
-                padding: 8px 10px 10px 10px;
-                width: auto;
-                border-radius: 10px;
-                margin: 0;
-                gap: 5px;
-            }
-    
-            #principal-container {
-                background-color: lighten($bg-color, 40%);
-                border-radius: 10px;
-                padding: 8px 10px 10px 10px;
-                display: flex;
-                flex-direction: row;
-                gap: 5px;
-        
-                #principal-title { font-weight: bold; margin-bottom: -5px; }
-            }
+            gap: 8px;
         }
     }
 
     #right {
+        width: 50%;
+        background-color: $bg-color;
+        border-radius: 0 5px 5px 0;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        align-items: end;
+        padding: 20px;
 
-        ul { 
+        ul {
+            margin-block-start: 0;
+            margin-block-end: 0;
+            padding-inline-start: 0;
             list-style-type: none;
             display: flex;
             flex-direction: column;
-            align-items: end;
-            gap: 15px;
-            margin: 0;
+            gap: 10px;
 
             li {
-                font-weight: bold;
-                font-size: 20px;
-                text-align: right;
-
-                &:hover { cursor: pointer; }
+                font-weight: 700;
             }
         }
 
-        a { text-decoration: none; }
-
-        #visit-webpage>div {
-            color: $accent-color;
-            display: flex;
-            gap: 3px;
-            transition: all 0.2s ease;
-
-            span:first-child { align-self: end; }
-            &:hover { color: lighten($accent-color, 10%); }
+        a {
+            color: $small-text-color;
         }
     }
-
-    p { margin: 0; }
-    
 }
 
 #map {
-    @include box(670px, 95%, 420px, 10px);
-    margin-top: 20px;
+    @include box(100%, 100%, 420px, 0 0 5px 5px);
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+    margin-top: 15px;
     display: none;
 }
 
@@ -156,7 +130,7 @@
     justify-content: center;
     gap: 9px;
     background-color: $alert-color;
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.7);
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
     color: black;
     margin-top: 20px;
     display: none;
@@ -172,18 +146,18 @@
 
 #about {
     @include box(300px, 95%, auto, 0 0 10px 0);
-    background-color: darken($accent-color, 20%);
+    background-color: $accent-color;
     position: absolute;
     z-index: 10;
     margin: 10px 0 0 -300px;
     transition: all 0.6s ease;
 
-    &:hover { margin-left: 0; box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7); }
+    &:hover { margin-left: 0; box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.3);; }
 
     #wing {
         @include box(40px, 100px, 55px, 0 10px 10px 0);
-        background-color: darken($accent-color, 20%);
-        box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.7);
+        background-color: $accent-color;
+        box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.3);
         position: absolute;
         top: 0;
         right: -40px;
@@ -206,3 +180,10 @@
         &:hover { color: darken($accent-color, 50%); }
     }
 }
+
+#logo {
+    width: 400px;
+    filter: drop-shadow(3px 3px 5px rgb(0 0 0 / 0.8));
+}
+
+.selected { background-color: rgba($accent-color, 0.20); }
