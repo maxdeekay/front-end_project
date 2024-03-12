@@ -4,3 +4,40 @@ $bg-color: rgb(50, 50, 50);
 $accent-color: rgb(74,130,248);
 $small-text-color: #71BBFB;
 $alert-color: rgb(255, 202, 103);
+
+$lighten-10: lighten($bg-color, 10%);
+$lighten-20: lighten($bg-color, 20%);
+$lighten-40: lighten($bg-color, 40%);
+
+@mixin box($width, $maxWidth, $height, $radius: 0px) {
+    width: $width;
+    max-width: $maxWidth;
+    height: $height;
+    border-radius: $radius;
+}
+
+@mixin displaydirect($display, $flexdirect) {
+    display: $display;
+    flex-direction: $flexdirect;
+}
+
+@mixin displayalign($display, $align) {
+    display: $display;
+    align-items: $align;
+}
+
+@mixin textstyle($weight, $size, $color) {
+    font-weight: $weight;
+    font-size: $size;
+    color: $color;
+}
+
+@mixin color($background, $textcolor) {
+    background-color: $background;
+    color: $textcolor;
+}
+
+@mixin justifyspace($justify, $padding) {
+    justify-content: $justify;
+    padding: $padding;
+}

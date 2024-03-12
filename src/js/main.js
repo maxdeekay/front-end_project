@@ -49,6 +49,7 @@ window.onload = async () => {
         }
     });
 
+    document.getElementById("logo").onclick = () => reload();
     document.getElementById("remove-tag").onclick = () => removeTag();
     initializeMap();
 }
@@ -290,4 +291,10 @@ function updateMap(lat, lng, name) {
 function mapError() {
     const element = document.getElementById("alert");
     element.style.display = "flex";
+}
+
+function reload() {
+    const searchContainer = document.getElementById("search-contaner");
+    searchContainer.classList.remove("at-top");
+    resetPage();
 }

@@ -1,21 +1,13 @@
 @use "base" as *;
 
-@mixin box($width, $maxWidth, $height, $radius: 0px) {
-    width: $width;
-    max-width: $maxWidth;
-    height: $height;
-    border-radius: $radius;
-}
-
 #suggestion-container {
     @include box(100%, 100%, auto);
+    @include displaydirect(none, column);
     max-height: 710px;
     overflow-y: scroll;
     scrollbar-width: thin;
     border-radius: 0 0 5px 5px;
     position: absolute;
-    display: none;
-    flex-direction: column;
     gap: 10px;
     margin-top: 8px;
     background-color: white;
@@ -24,20 +16,14 @@
     z-index: 5;
 
     .suggestion {
-        display: flex;
-        flex-direction: column;
+        @include displaydirect(flex, column);
         gap: 5px;
         padding: 10px 20px 10px 20px;
         color: black;
         font-weight: 600;
-
         &:hover { cursor: pointer; }
-
-        .type-text {
-            font-weight: 400;
-            font-size: 14px;
-            color: grey;
-        }
+        
+        .type-text { @include textstyle(400, 14px, grey); }
 
         p { margin-block-start: 0; margin-block-end: 0; }
     }
@@ -45,11 +31,7 @@
     .no-result {
         padding: 10px 20px 10px 20px;
 
-        .type-text {
-            font-weight: 400;
-            font-size: 14px;
-            color: grey;
-        }
+        .type-text { @include textstyle(400, 14px, grey); }
 
         p { margin-block-start: 0; margin-block-end: 0;}
 
@@ -58,60 +40,44 @@
 
 #school-container {
     @include box(100%, 100%, 300px);
-    background-color: lighten($bg-color, 20%);
+    @include justifyspace(space-between, 20px 30px);
+    background-color: $lighten-20;
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
     margin-top: 15px;
-    display: flex;
-    justify-content: space-between;
-    padding: 20px 30px;
     box-sizing: border-box;
     letter-spacing: 0.5px;
     display: none;
 
     #left {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 20px;
+        @include displaydirect(flex, column);
+        @include justifyspace(space-between, 20px);
         width: 50%;
 
         #school-name {
-            font-size: 26px;
-            font-weight: 800;
+            @include textstyle(800, 26, white);
         }
 
-        div {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+        div { @include displaydirect(flex, column);gap: 8px; }
     }
 
     #right {
+        @include displaydirect(flex, column);
+        @include justifyspace(space-between, 20px);
         width: 50%;
         background-color: $bg-color;
         border-radius: 0 5px 5px 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 20px;
+
+        a { color: $small-text-color; }
 
         ul {
+            @include displaydirect(flex, column);
             margin-block-start: 0;
             margin-block-end: 0;
             padding-inline-start: 0;
             list-style-type: none;
-            display: flex;
-            flex-direction: column;
             gap: 10px;
 
-            li {
-                font-weight: 700;
-            }
-        }
-
-        a {
-            color: $small-text-color;
+            li { font-weight: 700; }
         }
     }
 }
@@ -125,24 +91,18 @@
 
 #alert {
     @include box(420px, 100%, 50px, 10px);
-    display: flex;
-    align-items: center;
+    @include displayalign(flex, center);
+    @include color($alert-color, black);
     justify-content: center;
     gap: 9px;
-    background-color: $alert-color;
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
-    color: black;
     margin-top: 20px;
     display: none;
 
-    span {
-        font-size: 30px;
-    }
+    span { font-size: 30px; }
 }
 
-#map {
-    z-index: 1;
-}
+#map { z-index: 1; }
 
 #about {
     @include box(300px, 95%, auto, 0 0 10px 0);
@@ -152,7 +112,7 @@
     margin: 10px 0 0 -300px;
     transition: all 0.6s ease;
 
-    &:hover { margin-left: 0; box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.3);; }
+    &:hover { margin-left: 0; box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.3); }
 
     #wing {
         @include box(40px, 100px, 55px, 0 10px 10px 0);
@@ -164,8 +124,7 @@
 
         span {
             font-size: 32px;
-            margin: 10px 0 0 4px;
-        }
+            margin: 10px 0 0 4px; }
     }
 
     p {
@@ -176,7 +135,6 @@
     a { 
         color: white; 
         transition: all 0.2s ease;
-        
         &:hover { color: darken($accent-color, 50%); }
     }
 }
@@ -184,6 +142,8 @@
 #logo {
     width: 400px;
     filter: drop-shadow(3px 3px 5px rgb(0 0 0 / 0.8));
+
+    &:hover { cursor: pointer; }
 }
 
 .selected { background-color: rgba($accent-color, 0.20); }

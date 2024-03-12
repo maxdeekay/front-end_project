@@ -2,27 +2,22 @@
 @use "component" as *;
 
 body {
-    background-color: $bg-color;
-    color: white;
+    @include color($bg-color, white);
     font-family: "Open Sans", sans-serif;
     height: 100vh;
     overflow-y: scroll;
 }
 
-/* ::-webkit-scrollbar { width: 0; height: 0; } */
-
 p { font-size: 18px; }
 
 #container {
     @include box(650px, 95%, auto);
+    @include displaydirect(flex, column);
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
     align-items: center;
 
     #search-container {
-        display: flex;
-        flex-direction: column;
+        @include displaydirect(flex, column);
         align-items: center;
         gap: 40px;
         margin-top: 250px;
@@ -34,40 +29,36 @@ p { font-size: 18px; }
             width: 100%;
 
             #search-bar {
-                display: flex;
-                align-items: center;
                 @include box(100%, 100%, 50px);
-                background-color: lighten($bg-color, 20%);
+                @include displayalign(flex, center);
+                background-color: $lighten-20;
                 box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
                 border-radius: 5px 5px 0 0;
             }
             input[type=text] {
                 @include box(auto, 100%, 100%);
+                @include color(rgba(0, 0, 0, 0), white);
                 flex-grow: 1;
                 border: 0;
                 font-size: 20px;
-                background-color: rgba(0, 0, 0, 0);
-                color: white;     
                 padding: 10px;
 
                 &:focus { outline: none; }
             }
 
             #search-tag {
-                background-color: lighten($bg-color, 40%);
+                @include color($lighten-40, white);
+                @include displayalign(none, center);
+                box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
                 border-radius: 30px;
-                color: white;
                 padding: 3px 5px 3px 8px;
-                display: flex;
-                align-items: center;
                 gap: 3px;
                 margin-left: 8px;
-                display: none;
                 
                 #tag-name { font-size: 16px; }
                 #remove-tag { font-size: 20px; }
 
-                #remove-tag:hover { cursor: pointer; color: lighten($bg-color, 10%); }
+                #remove-tag:hover { cursor: pointer; color: $lighten-10; }
             }
         }
     }

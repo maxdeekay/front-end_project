@@ -1,0 +1,52 @@
+@use "base" as *;
+
+@media (width <= 500px) {
+    #search-container { gap: 40px !important; }
+    .at-top { margin-top: 20px !important; }
+    
+    #logo {
+        width: 300px;
+        align-self: end;
+        margin-right: -7px;
+    }
+
+    #input::placeholder {
+        font-size: 16px;
+        position: absolute;
+        top: 24px;
+    }
+
+    #school-container {
+        flex-direction: column;
+        padding: 10px;
+        align-items: center;
+        height: auto;
+    }
+    #left, #right {
+        width: 95% !important;
+        padding: 10px !important;
+    }
+
+    #right {
+        border-radius: 0 !important;
+        gap: 30px;
+    }
+
+    #search-tag {
+        position: absolute;
+        top: -30px;
+        margin: 0 !important;
+    }
+}
+
+@media (width <= 360px) {
+    #search-container { gap: 50px !important; }
+    .at-top { margin-top: 25px !important; }
+    #logo { width: 200px; }
+
+    #about {
+        width: 95vw;
+        margin-left: -95vw;
+        max-width: none;
+    }
+}
