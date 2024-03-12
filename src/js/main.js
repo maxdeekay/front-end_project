@@ -294,7 +294,11 @@ function mapError() {
 }
 
 function reload() {
-    const searchContainer = document.getElementById("search-contaner");
-    searchContainer.classList.remove("at-top");
+    const searchContainer = document.getElementById("search-container");
+    if (searchContainer.classList.contains("at-top")) searchContainer.classList.remove("at-top");
+    const input = document.getElementById("input");
+    input.value = "";
+    input.focus();
+    removeTag();
     resetPage();
 }
