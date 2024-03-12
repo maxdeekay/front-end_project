@@ -40,13 +40,25 @@
 }
 
 @media (width <= 360px) {
-    #search-container { gap: 50px !important; }
-    .at-top { margin-top: 25px !important; }
-    #logo { width: 200px; }
-
+    #search-container { gap: 10px !important; }
+    .at-top { margin-top: 15px !important; }
+    #logo { align-self: center; width: 100%; margin: 0;}
+    
     #about {
-        width: 95vw;
-        margin-left: -95vw;
         max-width: none;
+        width: 80vw;
+        bottom: 10px;
+        margin-left: -80vw;
+        border-radius: 0 10px 0 0;
+
+        &:hover {
+            margin-left: 0;
+        }
+
+        #wing {
+            box-shadow: none;
+            top: auto;
+            bottom: 0;
+        }
     }
 }
