@@ -83,7 +83,7 @@ function moveSelection(key) {
         const newSuggestion = document.querySelector(query);
         newSuggestion.classList.add("selected");
 
-        document.querySelector(".selected").scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+        document.querySelector(".selected").scrollIntoView({ block: 'nearest', inline: 'nearest' });
     }
     
     if (!option && key === "ArrowDown") document.querySelectorAll(".suggestion")[0].classList.add("selected");
